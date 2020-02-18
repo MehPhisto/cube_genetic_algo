@@ -1,0 +1,24 @@
+{
+  "name": "cubegenerator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cubeGenerator.js",
+  "type": "module",
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MehPhisto/cube_genetic_algo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MehPhisto/cube_genetic_algo/issues"
+  },
+  "homepage": "https://github.com/MehPhisto/cube_genetic_algo#readme"
+}

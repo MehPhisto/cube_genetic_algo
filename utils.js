@@ -1,10 +1,11 @@
+import _ from 'lodash';
 /**
  *
  * @param listOrigin
  * @returns {*[]}
  */
 function duplicate(listOrigin) {
-    return [...listOrigin];
+    return _.cloneDeep(listOrigin);
 }
 
 function remove(form, firstList, secondList) {
@@ -89,14 +90,14 @@ function merge(alphaForm, omegaForm) {
                     newForm = alphaForm.concat(omegaForm);
                 } else if (randomIndex < 22) {
                     omegaForm.forEach(function (cell) {
-                        let newList = Array.from(alphaForm, x => 0);
+                        let newList = _.cloneDeep(alphaForm);
                         newList[newList.length - 1] = 1;
                         newForm.push(newList)
                     });
                     newForm[newForm.length - 1] = alphaForm;
                 } else {
                     omegaForm.forEach(function (cell) {
-                        let newList = Array.from(alphaForm, x => 0);
+                        let newList = _.cloneDeep(alphaForm);
                         newList[newList.length - 1] = 1;
                         newForm.push(newList)
                     });
@@ -108,24 +109,10 @@ function merge(alphaForm, omegaForm) {
             const alphaExtremities = findExtremity(alphaForm.slice(), formStates['2D']);
             const randomIndex = Math.floor(Math.random() * Math.floor(33));
 
-            console.log("Alpha : ")
-            display2d(alphaForm)
-            console.log("Omega : ")
-            display2d(omegaForm)
-            console.log("------------------------------------")
-
             const randomRotationNumber = randomIndex < 11 ? 1 : randomIndex < 22 ? 2 : 3;
-            let potato;
             for (let i = 0; i < randomRotationNumber; i++) {
-                potato = rotate2D(omegaForm.slice());
+                omegaForm = rotate2D(_.cloneDeep(omegaForm));
             }
-
-            console.log("Alpha : ")
-            display2d(alphaForm)
-            console.log("Omega : ")
-            display2d(omegaForm)
-            console.log("potato stp marche : ")
-            display2d(potato)
 
             // TODO: randomly pick an alpha extrimity
             const pickenAlphaExtremity = alphaExtremities[0];
@@ -135,8 +122,8 @@ function merge(alphaForm, omegaForm) {
             // TODO: randomly pick an alpha extrimity
             const pickenOmegaExtremity = omegaExtremities[0];
 
-            omegaX = Math.abs(omegaExtremities[0][0] - omegaExtremities[1][0]);
-            omegaY = Math.abs(omegaExtremities[0][1] - omegaExtremities[1][1]);
+            const omegaX = Math.abs(omegaExtremities[0][0] - omegaExtremities[1][0]);
+            const omegaY = Math.abs(omegaExtremities[0][1] - omegaExtremities[1][1]);
 
             const xOverflow = Math.abs(pickenAlphaExtremity[0] - pickenOmegaExtremity[0]);
             const yOverflow = Math.abs(pickenAlphaExtremity[1] - pickenOmegaExtremity[1]);
@@ -294,47 +281,25 @@ let potatoCount = 0
 while (!isSquare) {
     let omegaForm = [];
     let alphaForm = newForm;
-    omegaForm = [omegaForm, ...duplicate([...newForm])];
+    omegaForm = duplicate(newForm);
 
-    console.log(omegaForm)
-    // let {alphaForm, omegaForm} = duplicate(newForm);
+    newForm = merge(alphaForm.slice(), omegaForm.slice());
 
+    console.log("\n\n\n")
 
-    console.log("Alpha : ")
-    display2d(alphaForm)
-    console.log("Omega : ")
-    display2d(omegaForm)
-    console.log("------------------------------------")
+    if (newForm[0][0] === undefined) {
+        display1d(newForm);
+    } else if (newForm[0][0][0] === undefined) {
+        display2d(newForm)
+    } else {
+        // TODO DISPLAY 3D
+        // display3d(newForm)
+    }
 
-    alphaForm[0][1] = 2
+    isSquare = checkSquareState(newForm);
 
-    console.log("Alpha : ")
-    display2d(alphaForm)
-    console.log("Omega : ")
-    display2d(omegaForm)
-
-    isSquare = true
-
-
-
-    //
-    // newForm = merge(alphaForm.slice(), omegaForm.slice());
-    //
-    // console.log("\n\n\n")
-    //
-    // if (newForm[0][0] === undefined) {
-    //     display1d(newForm);
-    // } else if (newForm[0][0][0] === undefined) {
-    //     display2d(newForm)
-    // } else {
-    //     // TODO DISPLAY 3D
-    //     // display3d(newForm)
-    // }
-    //
-    // isSquare = checkSquareState(newForm);
-    //
-    // potatoCount++;
-    // if (potatoCount === 5) {
-    //     isSquare = true;
-    // }
+    potatoCount++;
+    if (potatoCount === 5) {
+        isSquare = true;
+    }
 }
