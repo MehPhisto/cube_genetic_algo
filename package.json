@@ -1,7 +1,7 @@
 {
   "name": "cubegenerator",
   "version": "1.0.0",
-  "description": "",
+  "description": "Genetic algorithm to create shapes",
   "main": "cubeGenerator.js",
   "type": "module",
   "dependencies": {
